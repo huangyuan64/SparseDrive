@@ -1,22 +1,7 @@
 import torch
 
-from .deformable_aggregation import DeformableAggregationFunction
-
-
-def deformable_aggregation_function(
-    feature_maps,
-    spatial_shape,
-    scale_start_index,
-    sampling_location,
-    weights,
-):
-    return DeformableAggregationFunction.apply(
-        feature_maps,
-        spatial_shape,
-        scale_start_index,
-        sampling_location,
-        weights,
-    )
+import mx_driving
+from mx_driving import deformable_aggregation as deformable_aggregation_function
 
 
 def feature_maps_format(feature_maps, inverse=False):
