@@ -1,3 +1,5 @@
+export TASK_QUEUE_ENABLE=2
+
 ## stage1
 bash ./tools/dist_train.sh \
    projects/configs/sparsedrive_small_stage1.py \

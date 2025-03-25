@@ -28,6 +28,10 @@ import cv2
 
 cv2.setNumThreads(8)
 
+import torch_npu
+from torch_npu.contrib import transfer_to_npu
+import mx_driving
+from tools.patch import sparse_drive_patcher_builder
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train a detector")
@@ -316,6 +320,7 @@ def main():
 
 if __name__ == "__main__":
     torch.multiprocessing.set_start_method(
-        "fork"
+        "fork", force=True
     )  # use fork workers_per_gpu can be > 1
-    main()
+    with sparse_drive_patcher_builder.build():
+        main()
