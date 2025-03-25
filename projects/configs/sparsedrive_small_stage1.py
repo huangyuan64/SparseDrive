@@ -714,6 +714,6 @@ eval_mode = dict(
     motion_threshhold=0.2,
 )
 evaluation = dict(
-    interval=num_iters_per_epoch*checkpoint_epoch_interval,
+    interval=num_iters_per_epoch*num_epochs,
     eval_mode=eval_mode,
 )

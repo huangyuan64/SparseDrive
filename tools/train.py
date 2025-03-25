@@ -11,6 +11,12 @@ import mmcv
 import time
 import torch
 import warnings
+
+import torch_npu
+from torch_npu.contrib import transfer_to_npu
+import mx_driving
+from tools.patch import generate_patcher_builder
+
 from mmcv import Config, DictAction
 from mmcv.runner import get_dist_info, init_dist
 from os import path as osp
@@ -93,7 +99,7 @@ def parse_args():
         default="none",
         help="job launcher",
     )
-    parser.add_argument("--local_rank", type=int, default=0)
+    parser.add_argument("--local-rank", type=int, default=0)
     parser.add_argument(
         "--autoscale-lr",
         action="store_true",
@@ -316,6 +322,8 @@ def main():
 
 if __name__ == "__main__":
     torch.multiprocessing.set_start_method(
-        "fork"
+        "fork", force=True
     )  # use fork workers_per_gpu can be > 1
-    main()
+    sparse_drive_patcher_builder = generate_patcher_builder()
+    with sparse_drive_patcher_builder.build():
+        main()
